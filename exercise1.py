@@ -32,7 +32,17 @@ class ShiftCipher:
         str
             The shifted letter.
         """
-        shifted_letter = ''
+
+
+        alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+        index = alphabet.index(letter.lower())
+
+        if forward:
+            index = (index + self.shift) % len(alphabet)
+        else:
+            index = (index - self.shift) % len(alphabet)
+        
+        shifted_letter = alphabet[index]
         return shifted_letter
 
     def encrypt(self, plaintext: str):
@@ -56,6 +66,14 @@ class ShiftCipher:
             The ciphertext string.
         """
         ciphertext = ''
+
+        for char in plaintext:
+            if char.isalpha():
+                ciphercharacter = self.__shift_letter(char,True)
+                ciphertext += ciphercharacter.upper()
+            else:
+                ciphertext += char
+
         return ciphertext
 
     def decrypt(self, ciphertext: str):
@@ -79,6 +97,14 @@ class ShiftCipher:
             The plaintext string.
         """
         plaintext = ''
+
+        for char in ciphertext:
+            if char.isalpha():
+                ciphercharacter = self.__shift_letter(char,False)
+                plaintext += ciphercharacter.lower()
+            else:
+                plaintext += char
+
         return plaintext
 
 
