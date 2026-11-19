@@ -1,3 +1,11 @@
+
+#Xavier Cunningham 
+#zvnz0038@leeds.ac.uk
+#202028992
+
+
+import string
+
 class VigenereCipher:
     """
        VigenereCipher class (TO BE COMPLETED).
@@ -35,6 +43,18 @@ class VigenereCipher:
             The shifted letter.
         """
         shifted_letter = ''
+        alphabet = list(string.ascii_uppercase)
+        index = alphabet.index(letter.upper())
+        
+        if forward:
+            index += shift 
+            index = index % 26 
+            shifted_letter = alphabet[index]
+
+        else:
+            index -= shift 
+            index = index % 26 
+            shifted_letter = alphabet[index]
         return shifted_letter
 
     def __generate_shift_list(self, plaintext_length: int):
@@ -58,8 +78,16 @@ class VigenereCipher:
         list
             A list of shifts (integers).
         """
+
+        key_length = len(self.keyword)
         shift_list = []
+
+        for i in range(plaintext_length):
+            shift_letter = self.keyword[i % key_length]
+            shift_list .append(ord(shift_letter) - self.offset)
+
         return shift_list
+    
 
     def encrypt(self, plaintext: str):
         """
@@ -83,6 +111,17 @@ class VigenereCipher:
             The ciphertext string.
         """
         ciphertext = ''
+        cleantext = "".join(char.upper() for char in plaintext if char.isalpha())
+
+        cleantext_length = len(cleantext)
+        shift_list = self.__generate_shift_list(cleantext_length)
+
+        count = 0 
+
+        for char in cleantext:
+            ciphertext += self.__shift_letter(char,shift_list[count],True)
+            count += 1 
+
         return ciphertext
 
     def decrypt(self, ciphertext: str):
@@ -109,7 +148,17 @@ class VigenereCipher:
         str
             The plaintext string.
         """
+        count = 0
         plaintext = ''
+
+        cleantext = "".join(char.upper() for char in ciphertext if char.isalpha() )
+        cleantext_length = len(cleantext)
+        shift_list = self.__generate_shift_list(cleantext_length)
+
+        for char in cleantext:
+            plaintext += self.__shift_letter(char,shift_list[count],False)
+            count += 1 
+
         return plaintext
 
 

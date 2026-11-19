@@ -101,7 +101,7 @@ class ShiftCipher:
         for char in ciphertext:
             if char.isalpha():
                 ciphercharacter = self.__shift_letter(char,False)
-                plaintext += ciphercharacter.lower()
+                plaintext += ciphercharacter.upper()
             else:
                 plaintext += char
 

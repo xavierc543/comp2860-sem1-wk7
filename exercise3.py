@@ -38,6 +38,16 @@ class SubstitutionCipher:
             The ciphertext string.
         """
         ciphertext = ''
+
+        for char in plaintext:
+            upper_char = char.upper()
+            if upper_char.isalpha():
+                index = ord(upper_char) - self.offset
+                cipherchar = self.permutation[index]
+                ciphertext += cipherchar
+            else:   
+                ciphertext += upper_char
+
         return ciphertext
 
     def decrypt(self, ciphertext: str):
@@ -60,6 +70,18 @@ class SubstitutionCipher:
             The plaintext string.
         """
         plaintext = ''
+
+        for char in ciphertext:
+            upper_char = char.upper()
+            if upper_char.isalpha():
+                index = self.permutation.index(upper_char)
+                index += self.offset
+                decrypted = chr(index)
+                plaintext += decrypted
+            else:
+                plaintext += upper_char
+
+
         return plaintext
 
 
